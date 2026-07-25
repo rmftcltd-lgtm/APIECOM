@@ -1,30 +1,24 @@
 # Permanent hosting
 
-This API needs a cloud account (free tiers work). Pick one:
+## Live production URL
 
-## Option A — Render (easiest one-click)
+**https://apiecom-api-production.up.railway.app**
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rmftcltd-lgtm/APIECOM&branch=cursor/etsy-listing-automation-api-5eb6)
+- Landing page: https://apiecom-api-production.up.railway.app/
+- Health: https://apiecom-api-production.up.railway.app/api/v1/health
+- API base: https://apiecom-api-production.up.railway.app/api/v1
 
-1. Click the button
-2. Sign in with GitHub
-3. Create the free web service
-4. Your URL will look like `https://apiecom-etsy-listing-api.onrender.com`
+Hosted on Railway project `apiecom-etsy-api` (service `apiecom-api`).
 
-Optional: in the Render dashboard, add `OPENAI_API_KEY` and Etsy env vars from `.env.example`.
+Optional: in the Railway dashboard, add `OPENAI_API_KEY` and Etsy env vars from `.env.example` for real AI analysis and Etsy draft publishing.
 
-## Option B — Fly.io (always-on `*.fly.dev`)
+## Redeploy
 
 ```bash
-fly auth login
-fly apps create apiecom-etsy-listing
-fly deploy
+railway link   # if needed
+railway up --service apiecom-api
 ```
 
-App URL: `https://apiecom-etsy-listing.fly.dev`
+## Alternative — Render
 
-## After deploy
-
-- Landing page: `https://YOUR-HOST/`
-- Health: `https://YOUR-HOST/api/v1/health`
-- API base: `https://YOUR-HOST/api/v1`
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rmftcltd-lgtm/APIECOM&branch=cursor/etsy-listing-automation-api-5eb6)
