@@ -21,6 +21,12 @@ npm install
 npm run dev
 ```
 
+### Permanent public URL
+
+Temporary tunnels die with the agent session. For a stable host, see **[DEPLOY.md](./DEPLOY.md)** — one-click Render deploy or Fly.io.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rmftcltd-lgtm/APIECOM&branch=cursor/etsy-listing-automation-api-5eb6)
+
 Optional:
 
 - `OPENAI_API_KEY` — real vision analysis (without it, a safe fallback draft is generated so the API remains usable)
