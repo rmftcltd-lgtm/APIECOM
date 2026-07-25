@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>APIECOM — List an item</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">APIECOM</div>
+    <p class="tagline">Photo → AI draft → Etsy listing</p>
+  </header>
+
+  <main>
+    <ol class="steps" id="steps">
+      <li class="active" data-step="1">Start</li>
+      <li data-step="2">Photos</li>
+      <li data-step="3">Draft</li>
+      <li data-step="4">Done</li>
+    </ol>
+
+    <section class="panel" id="step-start">
+      <h2>List a new item</h2>
+      <p class="help">You’ll take 5 photos (including the label/maker’s mark) and a short 10-second video. AI fills the Etsy fields; you just review and finish.</p>
+      <button type="button" class="primary" id="btn-start">Start listing</button>
+      <p class="meta" id="session-meta" hidden></p>
+    </section>
+
+    <section class="panel" id="step-photos" hidden>
+      <h2>Capture media</h2>
+      <p class="help">Use your camera on phone, or upload files. All 6 are required.</p>
+      <div class="slots" id="slots"></div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-upload" disabled>Upload &amp; continue</button>
+      </div>
+      <p class="meta" id="photo-meta"></p>
+    </section>
+
+    <section class="panel" id="step-draft" hidden>
+      <h2>Review AI draft</h2>
+      <p class="help">Edit anything that looks wrong, then complete.</p>
+      <form id="draft-form" class="draft-form">
+        <label>Title <input name="title" required maxlength="140" /></label>
+        <label>Description <textarea name="description" rows="8" required></textarea></label>
+        <label>Tags (comma-separated) <input name="tags" /></label>
+        <label>Materials (comma-separated) <input name="materials" /></label>
+        <label>Price <input name="price" type="number" step="0.01" min="0" /></label>
+        <label>Currency <input name="currency" maxlength="3" /></label>
+        <label>Quantity <input name="quantity" type="number" min="1" step="1" /></label>
+        <label>Maker / brand <input name="brandOrMaker" /></label>
+        <label>Condition notes <textarea name="conditionNotes" rows="3"></textarea></label>
+        <label>Who made
+          <select name="whoMade">
+            <option value="someone_else">Someone else</option>
+            <option value="i_did">I did</option>
+            <option value="collective">Collective</option>
+          </select>
+        </label>
+        <label>When made <input name="whenMade" /></label>
+        <label>Taxonomy ID <input name="taxonomyId" type="number" /></label>
+      </form>
+      <div class="assumptions" id="assumptions"></div>
+      <div class="actions">
+        <button type="button" class="ghost" id="btn-reanalyze">Re-analyze</button>
+        <button type="button" class="primary" id="btn-complete">Save edits &amp; complete</button>
+      </div>
+      <p class="meta" id="draft-meta"></p>
+    </section>
+
+    <section class="panel" id="step-done" hidden>
+      <h2>Listing ready</h2>
+      <p class="help" id="done-message"></p>
+      <pre id="done-json"></pre>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-again">List another item</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>API: <code>/api/v1</code></span>
+    <a href="/api/v1/health" target="_blank" rel="noreferrer">Health</a>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
