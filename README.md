@@ -23,9 +23,9 @@ npm run dev
 
 ### Permanent public URL
 
-Temporary tunnels die with the agent session. For a stable host, see **[DEPLOY.md](./DEPLOY.md)** — one-click Render deploy or Fly.io.
+**Live:** https://apiecom-api-production.up.railway.app  
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rmftcltd-lgtm/APIECOM&branch=cursor/etsy-listing-automation-api-5eb6)
+See **[DEPLOY.md](./DEPLOY.md)** for redeploy steps and optional OpenAI/Etsy env vars.
 
 Optional:
 
