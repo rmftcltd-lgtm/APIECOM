@@ -2,183 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>APIECOM — Etsy Listing Automation API</title>
-  <style>
-    :root {
-      --ink: #1a1a1a;
-      --muted: #5c5c5c;
-      --bg: #f7f3ec;
-      --panel: #fffdf8;
-      --line: #d9d0c2;
-      --accent: #0f6b4d;
-      --accent-ink: #f4fff9;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, #efe4d2 0%, transparent 45%),
-        linear-gradient(160deg, #f7f3ec, #efe8dc);
-      min-height: 100vh;
-      padding: 2rem 1.25rem 3rem;
-    }
-    main {
-      max-width: 760px;
-      margin: 0 auto;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 1.75rem;
-      box-shadow: 0 18px 40px rgba(40, 30, 10, 0.08);
-    }
-    h1 {
-      font-family: "Fraunces", Georgia, serif;
-      font-weight: 650;
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
-      margin: 0 0 0.4rem;
-      letter-spacing: -0.02em;
-    }
-    .sub { color: var(--muted); margin: 0 0 1.5rem; line-height: 1.5; }
-    .status {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding: 0.85rem 1rem;
-      border-radius: 12px;
-      background: #eef7f2;
-      border: 1px solid #c6e2d4;
-    }
-    .dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: #9aa;
-      display: inline-block;
-    }
-    .dot.ok { background: #1f9d63; box-shadow: 0 0 0 4px rgba(31,157,99,.15); }
-    .dot.bad { background: #c0392b; }
-    code, pre {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.85rem;
-    }
-    pre {
-      background: #1e1a16;
-      color: #f5efe6;
-      padding: 1rem;
-      border-radius: 12px;
-      overflow-x: auto;
-      line-height: 1.45;
-    }
-    button {
-      appearance: none;
-      border: 0;
-      background: var(--accent);
-      color: var(--accent-ink);
-      border-radius: 999px;
-      padding: 0.7rem 1.1rem;
-      font: inherit;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button:disabled { opacity: 0.6; cursor: wait; }
-    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
-    a { color: var(--accent); }
-    h2 { font-size: 1.05rem; margin: 1.5rem 0 0.6rem; }
-    ul { margin: 0; padding-left: 1.2rem; color: var(--muted); line-height: 1.55; }
-    #out {
-      white-space: pre-wrap;
-      word-break: break-word;
-      min-height: 4rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>APIECOM — List an item</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
+  <header class="top">
+    <div class="brand">APIECOM</div>
+    <p class="tagline">Photo → AI draft → Etsy listing</p>
+  </header>
+
   <main>
-    <h1>APIECOM</h1>
-    <p class="sub">AI Etsy listing automation API — live. Capture 5 photos + a 10s video, generate a draft listing, edit, and complete.</p>
+    <ol class="steps" id="steps">
+      <li class="active" data-step="1">Start</li>
+      <li data-step="2">Photos</li>
+      <li data-step="3">Draft</li>
+      <li data-step="4">Done</li>
+    </ol>
 
-    <div class="status" id="status">
-      <span class="dot" id="dot"></span>
-      <strong id="statusText">Checking…</strong>
-      <span id="flags"></span>
-    </div>
+    <section class="panel" id="step-start">
+      <h2>List a new item</h2>
+      <p class="help">You’ll take 5 photos (including the label/maker’s mark) and a short 10-second video. AI fills the Etsy fields; you just review and finish.</p>
+      <button type="button" class="primary" id="btn-start">Start listing</button>
+      <p class="meta" id="session-meta" hidden></p>
+    </section>
 
-    <div class="row">
-      <button id="ping">Check health</button>
-      <button id="create">Create session</button>
-      <a href="/api/v1/health">Open /api/v1/health</a>
-    </div>
+    <section class="panel" id="step-photos" hidden>
+      <h2>Capture media</h2>
+      <p class="help">Use your camera on phone, or upload files. All 6 are required.</p>
+      <div class="slots" id="slots"></div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-upload" disabled>Upload &amp; continue</button>
+      </div>
+      <p class="meta" id="photo-meta"></p>
+    </section>
 
-    <h2>Live response</h2>
-    <pre id="out">Waiting…</pre>
+    <section class="panel" id="step-draft" hidden>
+      <h2>Review AI draft</h2>
+      <p class="help">Edit anything that looks wrong, then complete.</p>
+      <form id="draft-form" class="draft-form">
+        <label>Title <input name="title" required maxlength="140" /></label>
+        <label>Description <textarea name="description" rows="8" required></textarea></label>
+        <label>Tags (comma-separated) <input name="tags" /></label>
+        <label>Materials (comma-separated) <input name="materials" /></label>
+        <label>Price <input name="price" type="number" step="0.01" min="0" /></label>
+        <label>Currency <input name="currency" maxlength="3" /></label>
+        <label>Quantity <input name="quantity" type="number" min="1" step="1" /></label>
+        <label>Maker / brand <input name="brandOrMaker" /></label>
+        <label>Condition notes <textarea name="conditionNotes" rows="3"></textarea></label>
+        <label>Who made
+          <select name="whoMade">
+            <option value="someone_else">Someone else</option>
+            <option value="i_did">I did</option>
+            <option value="collective">Collective</option>
+          </select>
+        </label>
+        <label>When made <input name="whenMade" /></label>
+        <label>Taxonomy ID <input name="taxonomyId" type="number" /></label>
+      </form>
+      <div class="assumptions" id="assumptions"></div>
+      <div class="actions">
+        <button type="button" class="ghost" id="btn-reanalyze">Re-analyze</button>
+        <button type="button" class="primary" id="btn-complete">Save edits &amp; complete</button>
+      </div>
+      <p class="meta" id="draft-meta"></p>
+    </section>
 
-    <h2>Base URL</h2>
-    <pre id="base"></pre>
-
-    <h2>Typical flow</h2>
-    <ul>
-      <li><code>POST /api/v1/sessions</code> — start a capture session</li>
-      <li><code>POST /api/v1/sessions/:id/media</code> — upload front, back, detail, bottom_mark, context + video</li>
-      <li><code>POST /api/v1/sessions/:id/analyze</code> — AI draft</li>
-      <li><code>PATCH /api/v1/sessions/:id/draft</code> — edit fields</li>
-      <li><code>POST /api/v1/sessions/:id/complete</code> — push Etsy draft (or local-only)</li>
-    </ul>
+    <section class="panel" id="step-done" hidden>
+      <h2>Listing ready</h2>
+      <p class="help" id="done-message"></p>
+      <pre id="done-json"></pre>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-again">List another item</button>
+      </div>
+    </section>
   </main>
-  <script>
-    const out = document.getElementById("out");
-    const base = location.origin;
-    document.getElementById("base").textContent = base + "/api/v1";
 
-    async function show(label, promise) {
-      out.textContent = label + "…";
-      try {
-        const res = await promise;
-        const text = await res.text();
-        let body = text;
-        try { body = JSON.stringify(JSON.parse(text), null, 2); } catch {}
-        out.textContent = res.status + " " + res.statusText + "\n\n" + body;
-        return { res, body };
-      } catch (err) {
-        out.textContent = String(err);
-        return null;
-      }
-    }
+  <footer class="foot">
+    <span>API: <code>/api/v1</code></span>
+    <a href="/api/v1/health" target="_blank" rel="noreferrer">Health</a>
+  </footer>
 
-    async function refreshHealth() {
-      const result = await show("GET /api/v1/health", fetch("/api/v1/health"));
-      const dot = document.getElementById("dot");
-      const statusText = document.getElementById("statusText");
-      const flags = document.getElementById("flags");
-      if (!result || !result.res.ok) {
-        dot.className = "dot bad";
-        statusText.textContent = "API unreachable";
-        flags.textContent = "";
-        return;
-      }
-      const data = JSON.parse(result.body);
-      dot.className = "dot ok";
-      statusText.textContent = "API live";
-      flags.textContent = `· OpenAI ${data.openaiConfigured ? "on" : "off"} · Etsy ${data.etsyConfigured ? "on" : "off"}`;
-    }
-
-    document.getElementById("ping").onclick = refreshHealth;
-    document.getElementById("create").onclick = () =>
-      show(
-        "POST /api/v1/sessions",
-        fetch("/api/v1/sessions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ currency: "AUD", markupPercent: 45 }),
-        }),
-      );
-
-    refreshHealth();
-  </script>
+  <script src="/app.js"></script>
 </body>
 </html>
