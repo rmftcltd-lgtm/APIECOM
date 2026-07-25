@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: apiecom-etsy-listing-api
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: DEFAULT_CURRENCY
+        value: AUD
+      - key: DEFAULT_COUNTRY
+        value: AU
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ETSY_API_KEY
+        sync: false
+      - key: ETSY_ACCESS_TOKEN
+        sync: false
+      - key: ETSY_SHOP_ID
+        sync: false
+      - key: ETSY_SHIPPING_PROFILE_ID
+        sync: false
+      - key: ETSY_RETURN_POLICY_ID
+        sync: false

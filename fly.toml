@@ -1,0 +1,32 @@
+# Exported from https://fly.io/docs/reference/configuration/
+
+app = 'apiecom-etsy-listing'
+primary_region = 'syd'
+
+[build]
+
+[env]
+  NODE_ENV = 'production'
+  PORT = '8080'
+  DEFAULT_CURRENCY = 'AUD'
+  DEFAULT_COUNTRY = 'AU'
+  DATA_DIR = '/tmp/apiecom-data'
+  UPLOAD_DIR = '/tmp/apiecom-uploads'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+  [http_service.concurrency]
+    type = 'requests'
+    hard_limit = 50
+    soft_limit = 25
+
+[[vm]]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1

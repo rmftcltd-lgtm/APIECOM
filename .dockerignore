@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+dist
+uploads
+data
+.test-runtime
+coverage
+*.md
+tests
+vitest.config.ts
+scripts
+.cursor
